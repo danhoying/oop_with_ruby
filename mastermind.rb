@@ -21,6 +21,7 @@ class Mastermind
     choose_role
   end
 
+  # User can choose the role played.
   def choose_role
     role = nil
     puts "Choose your role!"
@@ -41,6 +42,7 @@ class Mastermind
     end
   end
 
+  # Code for one turn of the "code creator" route.
   def game_turn_1
     @player.enter_code
     until @total_guesses == @max_guesses || is_loser?
@@ -71,6 +73,7 @@ class Mastermind
     end
   end
 
+  # Code for one turn of the "code breaker" route.
   def game_turn_2
     @computer.create_code
     until @total_guesses == @max_guesses || is_winner?
@@ -150,6 +153,7 @@ class Player
     @partially_correct = 0
   end
 
+  # Returns true only if input is 4 numeric characters between 1 and 6.
   def is_valid_input?(guess)
     /^[1-6]{4}$/.match(guess) ? true : false
   end
@@ -166,6 +170,7 @@ class Player
     @guess
   end
 
+  # Same as above, but slightly changed text for the "code creator" route.
   def enter_code
     until is_valid_input?(@code)
       print "Enter your code. "
@@ -183,6 +188,8 @@ class Player
     puts "Correct: #{@correct}         Partially Correct: #{@partially_correct}"
   end
 
+  # Runs through each character in the guess and compares it to the character
+  # in the same position in the secret code.
   def check_guess(code, guess)
     count = 0
     guess.each_char do |i|
@@ -200,6 +207,7 @@ class Computer
 
   attr_accessor :secret_code, :comp_guess, :smart_guess, :smarter_guess
 
+  # The Computer class initializes 3 'versions' of guess as part of the AI.
   def initialize(secret_code, comp_guess, smart_guess, smarter_guess)
     @secret_code = secret_code
     @comp_guess = comp_guess
@@ -216,6 +224,14 @@ class Computer
     @secret_code
   end
 
+  # This is the computer's AI.  It is very basic and needs some work.  If the
+  # computer guesses a number in the code but in the wrong position, its next
+  # guess will be a shuffling of 'smart_guess'.  When a future guess contains
+  # a number in the same position as the code, the AI will put that value
+  # into 'smarter_guess'. The AI will then shuffle code characters until it 
+  # happens upon the code (or not).  All previous guesses are pushed to an array
+  # to prevent them from being guessed twice.  There probably need to be some 
+  # more steps added before the computer determines all of the correct numbers.
   def guess_code(code)
     if @smart_guess == ''
       random_num = [1,2,3,4,5,6]

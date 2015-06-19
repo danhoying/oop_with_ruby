@@ -24,6 +24,7 @@ class TicTacToe
     take_turn
   end
 
+  # Logic for each game turn is placed here.
   def take_turn
     until is_winner? || @board.board_full?
       move = get_player_input
@@ -60,6 +61,9 @@ class TicTacToe
     move
   end
 
+  # Runs through each array within 'winning_lines' by checking if the current
+  # player has completed a row of 3 of their symbols after placement on their
+  # turn.  @winner then obtains a value and validates the #take_turn 'until' loop.
   def is_winner?
     winning_lines = [[0, 1, 2], [3, 4, 5],
                      [6, 7, 8], [0, 3, 6],
